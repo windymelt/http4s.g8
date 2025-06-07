@@ -4,6 +4,10 @@ import cats.effect.Sync
 import cats.syntax.all.*
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
+import org.http4s.StaticFile
+import org.http4s.CacheDirective.`no-cache`
+import org.http4s.headers.`Cache-Control`
+import cats.data.NonEmptyList
 
 object $name;format="Camel"$Routes:
 
