@@ -7,6 +7,18 @@ import org.http4s.dsl.Http4sDsl
 
 object $name;format="Camel"$Routes:
 
+  def indexRoutes[F[_]: Sync]: HttpRoutes[F] =
+    val dsl = new Http4sDsl[F]{}
+    import dsl.*
+    HttpRoutes.of[F] {
+      case req @ GET -> Root =>
+        StaticFile
+         .fromResource(s"/pages/index.html", Some(req))
+         .map(_.putHeaders())
+         .map(_.putHeaders(`Cache-Control`(NonEmptyList.of(`no-cache`()))))
+         .getOrElseF(NotFound())
+    }
+
   def jokeRoutes[F[_]: Sync](J: Jokes[F]): HttpRoutes[F] =
     val dsl = new Http4sDsl[F]{}
     import dsl.*
